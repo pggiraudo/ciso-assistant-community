@@ -24,6 +24,18 @@ Aplicabilidad del ENS** (BP/14 del CCN-STIC).
 
 - Python 3.8 o superior. **Sin dependencias externas** (no necesita `openpyxl`).
 
+## Instalación (primera vez)
+
+Si no tienes Python o rclone, ejecuta el **instalador guiado** (te pregunta antes
+de instalar nada y te ayuda a conectar tu Google Drive):
+
+- **Windows:** doble clic en `instalar.bat`
+- **Mac / Linux:** doble clic (o `bash instalar.sh`) en `instalar.sh`
+
+Comprueba Python 3 y rclone, instala lo que falte con el gestor de paquetes de
+tu sistema (winget / Homebrew / apt / dnf) y lanza `rclone config` para
+conectar tu Drive.
+
 ## Inicio rápido (doble clic)
 
 Para no escribir comandos, usa los scripts de arranque incluidos:
