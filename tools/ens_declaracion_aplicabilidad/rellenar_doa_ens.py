@@ -24,6 +24,8 @@ Requisitos: Python 3.8+. Sin dependencias externas.
 import argparse
 import datetime
 import os
+import shutil
+import subprocess
 import sys
 
 from doa_engine import (DoaWorkbook, required_category, DIM_CELLS,
@@ -178,6 +180,75 @@ def step_justify(doc, applicable):
 
 
 # --------------------------------------------------------------------------
+# Volcado a Google Drive
+# --------------------------------------------------------------------------
+def _find_drive_dir():
+    """Intenta localizar una carpeta sincronizada de Google Drive (Desktop)."""
+    home = os.path.expanduser("~")
+    candidates = [
+        os.path.join(home, "Google Drive", "Mi unidad"),
+        os.path.join(home, "Google Drive", "My Drive"),
+        os.path.join(home, "GoogleDrive", "Mi unidad"),
+        os.path.join(home, "Google Drive"),
+    ]
+    # Windows: unidades G:, H: que monta Google Drive for Desktop
+    for letra in "GHIJ":
+        candidates.append("%s:\\Mi unidad" % letra)
+        candidates.append("%s:\\My Drive" % letra)
+    for path in candidates:
+        if os.path.isdir(path):
+            return path
+    return None
+
+
+def subir_a_drive(local_path, destino):
+    """Sube `local_path` a Google Drive.
+
+    `destino` puede ser:
+      - una ruta de carpeta local sincronizada por Google Drive for Desktop, o
+      - un remoto de rclone con el formato 'remoto:carpeta' (p.ej. 'gdrive:ENS').
+      - 'auto' para detectar la carpeta de Google Drive for Desktop.
+    """
+    nombre = os.path.basename(local_path)
+
+    if destino == "auto":
+        destino = _find_drive_dir()
+        if not destino:
+            print("\n[Drive] No se ha encontrado una carpeta de Google Drive "
+                  "for Desktop. Use --subir-drive con una ruta o un remoto "
+                  "rclone (p.ej. 'gdrive:ENS').")
+            return
+        print("[Drive] Carpeta de Google Drive detectada: %s" % destino)
+
+    # Remoto rclone (contiene ':' y no es una ruta de Windows tipo C:\)
+    es_rclone = (":" in destino and not os.path.isdir(destino)
+                 and not (len(destino) > 1 and destino[1] == ":"))
+    if es_rclone:
+        if not shutil.which("rclone"):
+            print("\n[Drive] rclone no está instalado. Instálelo y configure "
+                  "un remoto de Google Drive (rclone config), o use una "
+                  "carpeta local sincronizada.")
+            return
+        cmd = ["rclone", "copyto", local_path,
+               destino.rstrip("/") + "/" + nombre]
+        try:
+            subprocess.run(cmd, check=True)
+            print("[Drive] Subido a %s/%s" % (destino.rstrip('/'), nombre))
+        except subprocess.CalledProcessError as e:
+            print("[Drive] Error al subir con rclone: %s" % e)
+        return
+
+    # Carpeta local (sincronizada por Google Drive for Desktop)
+    if not os.path.isdir(destino):
+        print("\n[Drive] La carpeta destino no existe: %s" % destino)
+        return
+    dest_file = os.path.join(destino, nombre)
+    shutil.copy2(local_path, dest_file)
+    print("[Drive] Copiado a la carpeta de Drive: %s" % dest_file)
+    print("        Google Drive for Desktop lo sincronizará automáticamente.")
+
+
+# --------------------------------------------------------------------------
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     default_tpl = os.path.join(here, "declaracion_aplicabilidad_ENS.xlsx")
@@ -187,6 +258,11 @@ def main():
     ap.add_argument("plantilla", nargs="?", default=default_tpl,
                     help="Ruta de la plantilla .xlsx (por defecto: junto al script)")
     ap.add_argument("-o", "--salida", help="Ruta del archivo de salida .xlsx")
+    ap.add_argument("--subir-drive", dest="subir_drive", nargs="?",
+                    const="auto", default=None, metavar="DESTINO",
+                    help="Sube el resultado a Google Drive. Sin valor, detecta "
+                         "la carpeta de Google Drive for Desktop. También admite "
+                         "una ruta de carpeta o un remoto rclone (p.ej. 'gdrive:ENS').")
     args = ap.parse_args()
 
     if not os.path.isfile(args.plantilla):
@@ -212,6 +288,9 @@ def main():
     print("=" * 64)
     print("Abra el archivo en Excel/LibreOffice: la categoría, los recuentos")
     print("y los gráficos se recalcularán automáticamente al abrirlo.")
+
+    if args.subir_drive is not None:
+        subir_a_drive(out, args.subir_drive)
 
 
 if __name__ == "__main__":

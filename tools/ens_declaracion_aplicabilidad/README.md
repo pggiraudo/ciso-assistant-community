@@ -34,6 +34,26 @@ python3 rellenar_doa_ens.py /ruta/a/declaracion_aplicabilidad_ENS.xlsx -o salida
   al script.
 - Si no se indica `-o`, se genera `Declaracion_Aplicabilidad_ENS_<fecha>.xlsx`.
 
+### Volcado a Google Drive
+
+El resultado puede subirse automáticamente a Google Drive:
+
+```bash
+# 1) Detecta la carpeta de Google Drive for Desktop y copia ahí el resultado
+python3 rellenar_doa_ens.py plantilla.xlsx --subir-drive
+
+# 2) Carpeta concreta (lo más sencillo y fiable): apunta a tu unidad de Drive
+python3 rellenar_doa_ens.py plantilla.xlsx --subir-drive "/ruta/Google Drive/Mi unidad/ENS"
+
+# 3) Mediante rclone (si tienes un remoto de Drive configurado con 'rclone config')
+python3 rellenar_doa_ens.py plantilla.xlsx --subir-drive "gdrive:Declaracion de Aplicabilidad"
+```
+
+> La forma más sencilla es tener **Google Drive for Desktop** instalado y, o
+> bien usar `--subir-drive` (autodetección), o bien guardar directamente con
+> `-o` dentro de tu carpeta de Drive (que se sincroniza sola). Para máquinas sin
+> Drive for Desktop, usa un remoto de `rclone`.
+
 Durante el recorrido de controles:
 
 | Tecla        | Acción                                             |
