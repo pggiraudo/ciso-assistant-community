@@ -1,0 +1,2 @@
+# No publicar plantillas ni declaraciones rellenadas (contienen datos de la organización)
+*.xlsx
