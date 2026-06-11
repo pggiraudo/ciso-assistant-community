@@ -24,7 +24,23 @@ Aplicabilidad del ENS** (BP/14 del CCN-STIC).
 
 - Python 3.8 o superior. **Sin dependencias externas** (no necesita `openpyxl`).
 
-## Uso
+## Inicio rápido (doble clic)
+
+Para no escribir comandos, usa los scripts de arranque incluidos:
+
+- **Windows:** doble clic en `ejecutar.bat`
+- **Mac / Linux:** doble clic (o `bash ejecutar.sh`) en `ejecutar.sh`
+
+Antes de usarlos:
+
+1. Copia tu plantilla en esta misma carpeta con el nombre
+   `declaracion_aplicabilidad_ENS.xlsx` (o edita la variable `PLANTILLA` dentro
+   del script).
+2. (Opcional) Para que suba a Google Drive, deja configurado un remoto de
+   `rclone` (ver más abajo). El destino se controla con la variable
+   `DRIVE_DESTINO` al inicio del script; déjala vacía para no subir nada.
+
+## Uso (línea de comandos)
 
 ```bash
 python3 rellenar_doa_ens.py /ruta/a/declaracion_aplicabilidad_ENS.xlsx -o salida.xlsx
