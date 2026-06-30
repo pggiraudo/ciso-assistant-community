@@ -99,6 +99,89 @@ SAFEGUARD_MATURITY: dict[str, float] = {
 }
 
 # ---------------------------------------------------------------------------
+# Valoración AUTOMÁTICA de las 5 dimensiones por tipo de activo
+#
+# Perfil típico (C, I, D, A, T) en escala 0..5 para cada tipo de activo.
+# Permite que el usuario solo tenga que introducir el activo: la aplicación
+# valora por defecto las 5 dimensiones según el tipo. El usuario puede ajustar
+# después cualquier valor manualmente.
+# ---------------------------------------------------------------------------
+ASSET_TYPE_PROFILE: dict[str, dict[str, int]] = {
+    "S":     {"C": 3, "I": 4, "D": 5, "A": 3, "T": 3},  # Servicios
+    "D":     {"C": 4, "I": 4, "D": 3, "A": 3, "T": 4},  # Datos / Información
+    "SW":    {"C": 3, "I": 3, "D": 4, "A": 3, "T": 2},  # Aplicaciones
+    "HW":    {"C": 2, "I": 2, "D": 4, "A": 1, "T": 1},  # Equipos
+    "COM":   {"C": 3, "I": 3, "D": 4, "A": 2, "T": 2},  # Comunicaciones
+    "Media": {"C": 3, "I": 3, "D": 4, "A": 1, "T": 1},  # Soportes
+    "AUX":   {"C": 1, "I": 1, "D": 3, "A": 1, "T": 1},  # Equipamiento auxiliar
+    "L":     {"C": 2, "I": 1, "D": 4, "A": 1, "T": 1},  # Instalaciones
+    "P":     {"C": 3, "I": 3, "D": 3, "A": 2, "T": 2},  # Personal
+}
+
+# Ajuste del perfil según la criticidad del activo para el negocio.
+CRITICALITY_ADJUST: dict[str, int] = {
+    "Baja": -1,
+    "Media": 0,
+    "Alta": +1,
+}
+
+# Madurez de salvaguardas asignada por defecto (situación habitual de partida).
+DEFAULT_SAFEGUARD_MATURITY = "L2 - Reproducible pero intuitivo"
+
+# Palabras clave para deducir el tipo de activo a partir de su nombre.
+# El orden importa: la primera coincidencia gana.
+ASSET_TYPE_KEYWORDS: list[tuple[str, list[str]]] = [
+    ("Media", ["backup", "copia de seguridad", "copias de seguridad", "cinta",
+               "disco extraíble", "usb", "soporte", "nas"]),
+    ("COM", ["red", "wifi", "wi-fi", "firewall", "router", "switch", "vpn",
+             "internet", "lan", "comunicacion", "comunicación", "enlace"]),
+    ("HW", ["servidor", "ordenador", "portátil", "portatil", "pc", "equipo",
+            "estación", "estacion", "móvil", "movil", "smartphone", "tablet",
+            "impresora", "hardware", "cabina"]),
+    ("SW", ["aplicación", "aplicacion", "app", "software", "erp", "crm",
+            "programa", "correo", "email", "e-mail", "ofimática", "ofimatica",
+            "sistema operativo", "web", "portal", "plataforma", "antivirus"]),
+    ("D", ["base de datos", "bbdd", "bd ", "datos", "información", "informacion",
+           "fichero", "documentación", "documentacion", "expediente",
+           "histórico", "historico", "registro", "contabilidad", "nómina",
+           "nomina", "contrato"]),
+    ("S", ["servicio", "facturación", "facturacion", "atención", "atencion",
+           "tienda online", "ecommerce", "e-commerce", "tramitación",
+           "tramitacion"]),
+    ("L", ["oficina", "edificio", "sala", "cpd", "instalación", "instalacion",
+           "centro de proceso", "local", "sede", "almacén", "almacen"]),
+    ("AUX", ["sai", "ups", "climatización", "climatizacion", "aire acondicionado",
+             "grupo electrógeno", "electrogeno", "cableado", "alimentación",
+             "alimentacion", "generador"]),
+    ("P", ["personal", "empleado", "administrador", "usuario", "plantilla",
+           "rrhh", "equipo humano", "técnico", "tecnico", "operador"]),
+]
+
+
+def guess_asset_type(name: str) -> str:
+    """Deduce el tipo de activo (clave en ASSET_TYPES) a partir del nombre.
+
+    Si no encuentra ninguna palabra clave, devuelve 'D' (Datos), el tipo más
+    habitual y conservador. El usuario siempre puede corregirlo.
+    """
+    text = (name or "").lower()
+    for asset_type, keywords in ASSET_TYPE_KEYWORDS:
+        if any(kw in text for kw in keywords):
+            return asset_type
+    return "D"
+
+
+def auto_valuation(asset_type: str, criticality: str = "Media") -> dict[str, int]:
+    """Devuelve la valoración automática (C, I, D, A, T) para un tipo de activo.
+
+    Aplica el perfil del tipo de activo ajustado por la criticidad de negocio.
+    """
+    base = ASSET_TYPE_PROFILE.get(asset_type, ASSET_TYPE_PROFILE["D"])
+    adjust = CRITICALITY_ADJUST.get(criticality, 0)
+    return {d: max(0, min(5, base[d] + adjust)) for d in DIMENSIONS}
+
+
+# ---------------------------------------------------------------------------
 # Catálogo de amenazas
 #
 # Cada amenaza define:

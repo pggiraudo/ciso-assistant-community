@@ -55,13 +55,21 @@ Se abrirá en el navegador (por defecto `http://localhost:8501`).
 
 ## 📋 Cómo se usa
 
-1. **Introduce tus activos** en la tabla (o pulsa *Cargar ejemplo (PYME)* / importa un CSV).
-   - Indica el **tipo** de activo (Magerit) y valora cada dimensión de **0 a 5**.
-   - Opcionalmente, indica la **madurez de las salvaguardas** actuales (reduce el riesgo residual).
-2. Pulsa **🚀 Calcular análisis de riesgos**.
-3. Revisa la **distribución de riesgo**, la **validación de las 5 dimensiones**,
-   el **registro de riesgos** y los **controles recomendados**.
+1. **Escribe tus activos, uno por línea** en la caja de texto (puedes pegar una
+   lista entera de golpe) y pulsa **🔄 Generar tabla**.
+   - La app **deduce el tipo** de activo por el nombre y **calcula sola las 5
+     dimensiones** (C-I-D-A-T).
+   - Opcionalmente puedes precisar el tipo y la criticidad:
+     `Nombre | Tipo | Criticidad` (p. ej. `Servicio de facturación | S | Alta`).
+2. *(Opcional)* Revisa y ajusta los valores en la tabla del paso 2.
+3. Pulsa **🚀 Calcular análisis de riesgos** y revisa la **distribución de
+   riesgo**, la **validación de las 5 dimensiones**, el **registro de riesgos**
+   (riesgo **inherente** y **residual**) y los **controles recomendados**.
 4. Pulsa **⬇️ Descargar análisis en Excel**.
+
+> La valoración automática se basa en un **perfil por tipo de activo** ajustado
+> por la **criticidad de negocio** (Baja/Media/Alta, configurable en la barra
+> lateral). El riesgo **residual** depende de la **madurez de las salvaguardas**.
 
 ### Escala de valoración (0–5)
 

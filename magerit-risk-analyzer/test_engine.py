@@ -48,6 +48,40 @@ def test_excel_export_produces_bytes():
     assert len(data) > 5000
 
 
+def test_guess_asset_type():
+    assert catalog.guess_asset_type("Servidor principal") == "HW"
+    assert catalog.guess_asset_type("Base de datos de clientes") == "D"
+    assert catalog.guess_asset_type("ERP corporativo") == "SW"
+    assert catalog.guess_asset_type("Red corporativa y WiFi") == "COM"
+    assert catalog.guess_asset_type("Copias de seguridad") == "Media"
+    assert catalog.guess_asset_type("Oficina principal") == "L"
+    assert catalog.guess_asset_type("Personal de IT") == "P"
+    assert catalog.guess_asset_type("Servicio de facturación") == "S"
+
+
+def test_auto_valuation_fills_five_dimensions():
+    val = catalog.auto_valuation("S", "Media")
+    assert set(val) == {"C", "I", "D", "A", "T"}
+    assert all(0 <= v <= 5 for v in val.values())
+    # La criticidad alta sube la valoración respecto a la baja.
+    assert sum(catalog.auto_valuation("S", "Alta").values()) > \
+        sum(catalog.auto_valuation("S", "Baja").values())
+
+
+def test_assets_from_lines_only_names():
+    assets = engine.assets_from_lines("Servidor principal\nBase de datos\n\n")
+    assert len(assets) == 2  # la línea vacía se ignora
+    assert assets[0].asset_type == "HW"
+    assert assets[0].max_value() > 0  # dimensiones valoradas automáticamente
+
+
+def test_assets_from_lines_with_type_and_criticality():
+    assets = engine.assets_from_lines("Mi servicio | S | Alta")
+    assert assets[0].asset_type == "S"
+    # Criticidad alta -> al menos una dimensión en el máximo.
+    assert assets[0].max_value() == 5
+
+
 def test_threats_map_to_iso_and_ens():
     for t in catalog.THREATS:
         assert t["iso27001"], f"{t['code']} sin controles ISO"

@@ -107,7 +107,7 @@ def df_to_assets(df: pd.DataFrame) -> list[Asset]:
 # Estado
 # ---------------------------------------------------------------------------
 if "assets_df" not in st.session_state:
-    st.session_state.assets_df = empty_df()
+    st.session_state.assets_df = empty_df(0)
 
 # ---------------------------------------------------------------------------
 # Barra lateral
@@ -115,6 +115,20 @@ if "assets_df" not in st.session_state:
 with st.sidebar:
     st.header("🛡️ Configuración")
     company = st.text_input("Organización", value="Mi Empresa, S.L.")
+
+    st.markdown("### Valoración automática")
+    default_criticality = st.select_slider(
+        "Criticidad de negocio por defecto",
+        options=["Baja", "Media", "Alta"],
+        value="Media",
+        help="La app valora las 5 dimensiones según el tipo de activo y esta criticidad.",
+    )
+    default_maturity = st.selectbox(
+        "Madurez de salvaguardas por defecto",
+        options=MATURITY_OPTIONS,
+        index=MATURITY_OPTIONS.index(catalog.DEFAULT_SAFEGUARD_MATURITY),
+        help="Nivel de madurez actual de las salvaguardas (reduce el riesgo residual).",
+    )
 
     st.markdown("### Cargar activos")
     if st.button("📋 Cargar ejemplo (PYME)", use_container_width=True):
@@ -158,21 +172,77 @@ st.caption(
 )
 
 st.markdown(
-    "**Solo tienes que introducir tus activos** y valorarlos en las 5 dimensiones "
-    "de seguridad. La aplicación identifica automáticamente las amenazas, calcula "
-    "el riesgo y propone controles."
+    "**Solo tienes que escribir tus activos** (uno por línea). La aplicación deduce "
+    "el tipo, **calcula automáticamente las 5 dimensiones de seguridad** (C-I-D-A-T), "
+    "identifica las amenazas y calcula el **riesgo inherente** y el **riesgo residual**."
 )
 
 # ---------------------------------------------------------------------------
-# 1. Entrada de activos
+# 1. Entrada rápida de activos (uno por línea)
 # ---------------------------------------------------------------------------
-st.subheader("1️⃣ Inventario de activos")
+st.subheader("1️⃣ Escribe tus activos")
+
+st.markdown(
+    "Escribe **un activo por línea**. Puedes pegar una lista entera de golpe. "
+    "Opcionalmente puedes precisar el tipo y la criticidad separando con `|`:  "
+    "`Nombre | Tipo | Criticidad`."
+)
+
+quick_text = st.text_area(
+    "Activos (uno por línea)",
+    height=160,
+    placeholder=(
+        "Servidor principal\n"
+        "Base de datos de clientes\n"
+        "ERP corporativo\n"
+        "Correo electrónico\n"
+        "Copias de seguridad\n"
+        "Red corporativa y WiFi\n"
+        "Servicio de facturación online | S | Alta"
+    ),
+)
+cqa, cqb = st.columns(2)
+if cqa.button("🔄 Generar tabla (reemplazar)", use_container_width=True, type="primary"):
+    new_assets = engine.assets_from_lines(quick_text, default_criticality, default_maturity)
+    if new_assets:
+        st.session_state.assets_df = assets_to_df(new_assets)
+        st.rerun()
+    else:
+        st.warning("Escribe al menos un activo (una línea con texto).")
+if cqb.button("➕ Añadir a la tabla", use_container_width=True):
+    new_assets = engine.assets_from_lines(quick_text, default_criticality, default_maturity)
+    if new_assets:
+        combined = pd.concat(
+            [st.session_state.assets_df, assets_to_df(new_assets)], ignore_index=True)
+        st.session_state.assets_df = combined
+        st.rerun()
+    else:
+        st.warning("Escribe al menos un activo (una línea con texto).")
+
+st.info(
+    "💡 Tipos que detecta automáticamente: servidor/portátil→Hardware, "
+    "base de datos/documentación→Datos, ERP/correo/web→Aplicaciones, "
+    "red/WiFi/firewall→Comunicaciones, copia de seguridad→Soportes, "
+    "oficina/CPD→Instalaciones, personal→Personal, servicio/facturación→Servicios. "
+    "Puedes corregir el tipo y los valores en la tabla de abajo.",
+    icon="ℹ️",
+)
+
+# ---------------------------------------------------------------------------
+# 2. Tabla de activos (revisar / ajustar) — valoración ya calculada
+# ---------------------------------------------------------------------------
+st.subheader("2️⃣ Revisa y ajusta (opcional)")
 
 with st.expander("¿Qué significan las 5 dimensiones?"):
     cols = st.columns(5)
     for col, (dim, name) in zip(cols, catalog.DIMENSIONS.items()):
         col.markdown(f"**{dim} · {name}**")
         col.caption(catalog.DIMENSION_DESCRIPTIONS[dim])
+
+st.caption(
+    "Los valores C-I-D-A-T ya están calculados automáticamente. Solo edítalos si "
+    "quieres afinarlos."
+)
 
 edited_df = st.data_editor(
     st.session_state.assets_df,
@@ -207,14 +277,14 @@ assets = df_to_assets(edited_df)
 st.caption(f"Activos válidos detectados: **{len(assets)}**")
 
 # ---------------------------------------------------------------------------
-# 2. Análisis
+# 3. Análisis
 # ---------------------------------------------------------------------------
-st.subheader("2️⃣ Análisis de riesgos")
+st.subheader("3️⃣ Análisis de riesgos")
 run = st.button("🚀 Calcular análisis de riesgos", type="primary", use_container_width=True)
 
 if run:
     if not assets:
-        st.warning("Añade al menos un activo con nombre y alguna dimensión valorada (>0).")
+        st.warning("Escribe al menos un activo en el paso 1 y pulsa «Generar tabla».")
     else:
         st.session_state.risks = engine.analyze(assets)
         st.session_state.analyzed_assets = assets
@@ -236,7 +306,7 @@ if st.session_state.get("risks") and st.session_state.get("analyzed_assets"):
         resid = engine.summary_by_level(risks, residual=True)
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Escenarios de riesgo", len(risks))
-        c2.metric("Riesgo Alto/Muy Alto (intrínseco)",
+        c2.metric("Riesgo Alto/Muy Alto (inherente)",
                   intr["Alto"] + intr["Muy Alto"])
         c3.metric("Riesgo Alto/Muy Alto (residual)",
                   resid["Alto"] + resid["Muy Alto"],
@@ -246,7 +316,7 @@ if st.session_state.get("risks") and st.session_state.get("analyzed_assets"):
         # --- Distribución por nivel ---
         st.markdown("#### Distribución por nivel de riesgo")
         dist = pd.DataFrame({
-            "Intrínseco": intr,
+            "Inherente": intr,
             "Residual": resid,
         }).reindex(["Muy Bajo", "Bajo", "Medio", "Alto", "Muy Alto"])
         st.bar_chart(dist)
@@ -280,8 +350,8 @@ if st.session_state.get("risks") and st.session_state.get("analyzed_assets"):
                 "Dimensiones": ", ".join(r.affected_dimensions),
                 "Prob.": r.probability,
                 "Impacto": r.impact,
-                "R. intrínseco": r.intrinsic_score,
-                "Nivel intr.": r.intrinsic_level,
+                "R. inherente": r.intrinsic_score,
+                "Nivel inher.": r.intrinsic_level,
                 "Eficacia salv. %": round(r.safeguard_efficacy * 100),
                 "R. residual": r.residual_score,
                 "Nivel resid.": r.residual_level,
@@ -303,7 +373,7 @@ if st.session_state.get("risks") and st.session_state.get("analyzed_assets"):
             return f"background-color: {colors.get(val, '')}"
 
         st.dataframe(
-            shown.style.map(_color, subset=["Nivel intr.", "Nivel resid."]),
+            shown.style.map(_color, subset=["Nivel inher.", "Nivel resid."]),
             use_container_width=True, hide_index=True, height=420,
         )
 
@@ -333,7 +403,7 @@ if st.session_state.get("risks") and st.session_state.get("analyzed_assets"):
                 st.info("Sin riesgos relevantes.")
 
         # --- Exportar Excel ---
-        st.subheader("3️⃣ Exportar")
+        st.subheader("4️⃣ Exportar")
         xlsx = excel.to_bytes(company, analyzed_assets, risks)
         st.download_button(
             "⬇️ Descargar análisis en Excel (.xlsx)",

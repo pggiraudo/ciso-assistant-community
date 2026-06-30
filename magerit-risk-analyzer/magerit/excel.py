@@ -90,7 +90,7 @@ def _sheet_cover(wb: Workbook, company: str, risks: list[RiskItem],
     r += 1
     ws.cell(row=r, column=1, value="Distribución de escenarios por nivel de riesgo").font = SUBTITLE_FONT
     r += 1
-    headers = ["Nivel", "Riesgo intrínseco", "Riesgo residual", "Descripción"]
+    headers = ["Nivel", "Riesgo inherente", "Riesgo residual", "Descripción"]
     for i, h in enumerate(headers, start=1):
         ws.cell(row=r, column=i, value=h)
     _style_header(ws, r, len(headers))
@@ -159,7 +159,7 @@ def _sheet_risks(wb: Workbook, risks: list[RiskItem]) -> None:
     ws = wb.create_sheet("Riesgos")
     headers = ["ID activo", "Activo", "Tipo", "Cód. amenaza", "Amenaza",
                "Grupo", "Dimensiones", "Valor activo", "Degradación %",
-               "Probabilidad", "Impacto", "Riesgo intrínseco", "Nivel intrínseco",
+               "Probabilidad", "Impacto", "Riesgo inherente", "Nivel inherente",
                "Eficacia salvaguardas %", "Riesgo residual", "Nivel residual",
                "Controles ISO 27001", "Medidas ENS"]
     ws.append(headers)

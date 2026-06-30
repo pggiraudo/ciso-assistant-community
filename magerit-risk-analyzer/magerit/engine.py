@@ -53,6 +53,81 @@ class Asset:
         return max(self.dimension_value(d) for d in catalog.DIMENSIONS)
 
 
+def asset_from_minimal(
+    name: str,
+    asset_type: str | None = None,
+    criticality: str = "Media",
+    asset_id: str = "",
+    owner: str = "",
+    description: str = "",
+    safeguard_maturity: str | None = None,
+) -> Asset:
+    """Crea un activo a partir de datos mínimos (solo el nombre es obligatorio).
+
+    - Si no se indica el tipo, se deduce del nombre.
+    - Las 5 dimensiones se valoran automáticamente según el tipo y la criticidad.
+    """
+    name = (name or "").strip()
+    a_type = asset_type or catalog.guess_asset_type(name)
+    if a_type not in catalog.ASSET_TYPES:
+        a_type = catalog.guess_asset_type(name)
+    valuation = catalog.auto_valuation(a_type, criticality)
+    maturity = safeguard_maturity or catalog.DEFAULT_SAFEGUARD_MATURITY
+    if maturity not in catalog.SAFEGUARD_MATURITY:
+        maturity = catalog.DEFAULT_SAFEGUARD_MATURITY
+    return Asset(
+        asset_id=asset_id.strip() or name[:8].upper().replace(" ", "-"),
+        name=name,
+        asset_type=a_type,
+        owner=owner.strip(),
+        description=description.strip(),
+        C=valuation["C"], I=valuation["I"], D=valuation["D"],
+        A=valuation["A"], T=valuation["T"],
+        safeguard_maturity=maturity,
+    )
+
+
+def assets_from_lines(
+    text: str,
+    criticality: str = "Media",
+    safeguard_maturity: str | None = None,
+) -> list[Asset]:
+    """Crea activos desde un texto con un activo por línea.
+
+    Formato de cada línea (los campos tras el nombre son opcionales):
+        Nombre | Tipo | Criticidad
+    El separador es la barra vertical '|'. Si solo se da el nombre, el tipo se
+    deduce automáticamente y la criticidad es la global.
+    """
+    assets: list[Asset] = []
+    type_aliases = {k.lower(): k for k in catalog.ASSET_TYPES}
+    for i, raw in enumerate((text or "").splitlines(), start=1):
+        line = raw.strip()
+        if not line:
+            continue
+        parts = [p.strip() for p in line.split("|")]
+        name = parts[0]
+        if not name:
+            continue
+        a_type = None
+        crit = criticality
+        if len(parts) >= 2 and parts[1]:
+            a_type = type_aliases.get(parts[1].lower(), None) or (
+                parts[1] if parts[1] in catalog.ASSET_TYPES else None)
+        if len(parts) >= 3 and parts[2]:
+            cand = parts[2].capitalize()
+            if cand in catalog.CRITICALITY_ADJUST:
+                crit = cand
+        assets.append(asset_from_minimal(
+            name=name,
+            asset_type=a_type,
+            criticality=crit,
+            asset_id=f"A-{i:02d}",
+            safeguard_maturity=safeguard_maturity,
+        ))
+    return assets
+
+
 @dataclass
 class RiskItem:
     """Resultado del análisis para un par (activo, amenaza)."""
