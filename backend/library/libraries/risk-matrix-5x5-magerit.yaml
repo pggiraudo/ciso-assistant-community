@@ -1,0 +1,174 @@
+urn: urn:intuitem:risk:library:risk-matrix-5x5-magerit
+locale: es
+ref_id: risk-matrix-5x5-magerit
+name: Matriz de riesgo 5x5 - MAGERIT
+description: 'Matriz de riesgo cualitativa 5x5 (frecuencia x degradación/impacto) adaptada de la metodología MAGERIT (Metodología de Análisis y Gestión de Riesgos de los Sistemas de Información, CCN-CERT). Usa la escala cualitativa habitual de MAGERIT: MB (muy bajo/a), B (bajo/a), M (medio/a), A (alto/a), MA (muy alto/a), tanto para la frecuencia (probabilidad) como para la degradación (impacto) del riesgo. Es una simplificación práctica del cálculo cuantitativo detallado en el Libro I de MAGERIT v3 (riesgo = valor del activo x degradación x frecuencia), pensada para su uso directo como matriz de riesgo en CISO Assistant.'
+copyright: CCN-CERT / Gobierno de España (metodología MAGERIT, dominio público) - adaptación comunidad CISO Assistant
+version: 1
+publication_date: '2026-07-28'
+provider: CCN-CERT (Centro Criptológico Nacional)
+packager: SecurityPyme
+translations:
+  en:
+    name: 5x5 Risk Matrix - MAGERIT
+    description: '5x5 qualitative risk matrix (frequency x degradation/impact) adapted from the MAGERIT methodology (Spanish Risk Analysis and Management Methodology for Information Systems, CCN-CERT). Uses MAGERIT''s usual qualitative scale: VL (very low), L (low), M (medium), H (high), VH (very high) for both the frequency (likelihood) and the degradation (impact) of the risk.'
+objects:
+  risk_matrix:
+  - urn: urn:intuitem:risk:matrix:5x5-magerit
+    ref_id: risk-matrix-5x5-magerit
+    name: Matriz de riesgo 5x5 - MAGERIT
+    description: Matriz de riesgo 5x5 (frecuencia x degradación) según la escala cualitativa MAGERIT (MB/B/M/A/MA)
+    probability:
+    - id: 0
+      abbreviation: MB
+      name: MB - muy baja
+      description: 'Muy poco frecuente: se estima que puede ocurrir cada varios años (frecuencia extraordinaria)'
+      translations:
+        en:
+          name: VL - very low
+          description: 'Extraordinary: expected to occur once every several years'
+    - id: 1
+      abbreviation: B
+      name: B - baja
+      description: 'Poco frecuente: se estima que puede ocurrir una vez al año'
+      translations:
+        en:
+          name: L - low
+          description: 'Low frequency: expected to occur about once a year'
+    - id: 2
+      abbreviation: M
+      name: M - media
+      description: 'Frecuencia normal: se estima que puede ocurrir varias veces al año'
+      translations:
+        en:
+          name: M - medium
+          description: 'Normal frequency: expected to occur several times a year'
+    - id: 3
+      abbreviation: A
+      name: A - alta
+      description: 'Frecuente: se estima que puede ocurrir mensualmente'
+      translations:
+        en:
+          name: H - high
+          description: 'Frequent: expected to occur monthly'
+    - id: 4
+      abbreviation: MA
+      name: MA - muy alta
+      description: 'Muy frecuente: se estima que puede ocurrir semanal o diariamente'
+      translations:
+        en:
+          name: VH - very high
+          description: 'Very frequent: expected to occur weekly or daily'
+    impact:
+    - id: 0
+      abbreviation: MB
+      name: MB - muy bajo
+      description: Degradación irrelevante del activo/dimensión de seguridad (D/I/C/A/T); consecuencias despreciables para la organización
+      translations:
+        en:
+          name: VL - very low
+          description: Negligible degradation of the asset/security dimension; negligible consequences
+    - id: 1
+      abbreviation: B
+      name: B - bajo
+      description: Degradación limitada; consecuencias menores, asumibles sin apenas gestión
+      translations:
+        en:
+          name: L - low
+          description: Limited degradation; minor consequences, easily absorbed
+    - id: 2
+      abbreviation: M
+      name: M - medio
+      description: Degradación significativa; consecuencias notables que requieren gestión activa
+      translations:
+        en:
+          name: M - medium
+          description: Significant degradation; notable consequences requiring active management
+    - id: 3
+      abbreviation: A
+      name: A - alto
+      description: Degradación grave; consecuencias importantes, posible impacto legal/regulatorio o financiero relevante
+      translations:
+        en:
+          name: H - high
+          description: Severe degradation; major consequences, possible relevant legal/regulatory or financial impact
+    - id: 4
+      abbreviation: MA
+      name: MA - muy alto
+      description: Degradación total/catastrófica; consecuencias críticas para la continuidad, reputación o supervivencia de la organización
+      translations:
+        en:
+          name: VH - very high
+          description: Total/catastrophic degradation; critical consequences for continuity, reputation or survival of the organization
+    risk:
+    - id: 0
+      abbreviation: MB
+      name: MB - riesgo muy bajo
+      description: Riesgo muy bajo - asumible sin medidas adicionales
+      translations:
+        en:
+          name: VL - very low risk
+          description: Very low risk - acceptable without additional measures
+      hexcolor: '#D3FF4E'
+    - id: 1
+      abbreviation: B
+      name: B - riesgo bajo
+      description: Riesgo bajo - asumible, revisar periódicamente
+      translations:
+        en:
+          name: L - low risk
+          description: Low risk - acceptable, review periodically
+      hexcolor: '#02A45A'
+    - id: 2
+      abbreviation: M
+      name: M - riesgo medio
+      description: Riesgo medio - requiere tratamiento planificado
+      translations:
+        en:
+          name: M - medium risk
+          description: Medium risk - requires planned treatment
+      hexcolor: '#FFA600'
+    - id: 3
+      abbreviation: A
+      name: A - riesgo alto
+      description: Riesgo alto - inaceptable, requiere tratamiento prioritario
+      translations:
+        en:
+          name: H - high risk
+          description: High risk - unacceptable, requires priority treatment
+      hexcolor: '#FF1A00'
+    - id: 4
+      abbreviation: MA
+      name: MA - riesgo muy alto
+      description: Riesgo muy alto - inaceptable, requiere tratamiento inmediato / escalado a dirección
+      translations:
+        en:
+          name: VH - very high risk
+          description: Very high risk - unacceptable, requires immediate treatment / escalation to management
+      hexcolor: '#C00000'
+    grid:
+    - - 0
+      - 0
+      - 1
+      - 1
+      - 1
+    - - 0
+      - 1
+      - 1
+      - 2
+      - 2
+    - - 1
+      - 1
+      - 2
+      - 3
+      - 3
+    - - 1
+      - 2
+      - 3
+      - 3
+      - 4
+    - - 2
+      - 3
+      - 3
+      - 4
+      - 4

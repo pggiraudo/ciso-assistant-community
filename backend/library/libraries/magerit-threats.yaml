@@ -1,0 +1,432 @@
+urn: urn:intuitem:risk:library:magerit-threats
+locale: es
+ref_id: magerit-threats
+name: MAGERIT - Catálogo de amenazas (con cadena de suministro e IA)
+description: 'Catálogo de amenazas basado en el Libro II - Catálogo de Elementos de MAGERIT v3 (Metodología de Análisis y Gestión de Riesgos de los Sistemas de Información, CCN-CERT), organizado en los grupos originales: [N] Desastres naturales, [I] De origen industrial, [E] Errores y fallos no intencionados y [A] Ataques intencionados (identificados por el prefijo de su código de referencia, p. ej. N.1, I.5, E.20, A.24). Se amplía con dos grupos adicionales no presentes en el catálogo original de 2012, para cubrir riesgos actuales: [S] Cadena de suministro (proveedores, componentes de terceros, software/hardware suministrado, servicios en la nube, subcontratistas) e [IA] Riesgos de Inteligencia Artificial (envenenamiento de datos, inyección de instrucciones, sesgo algorítmico, fuga de información del modelo, cumplimiento del Reglamento de IA de la UE, etc.). Cada amenaza incluye una breve descripción y, cuando procede, recomendaciones orientativas de tratamiento en el campo ''annotation''.
+  Úsese junto con la librería ''Matriz de riesgo 5x5 - MAGERIT'' para completar un análisis de riesgos MAGERIT en CISO Assistant: inventario y valoración de activos (dimensiones D/I/C/A/T), selección de amenazas de este catálogo por activo, estimación de frecuencia y degradación, cálculo del riesgo y plan de tratamiento.'
+copyright: 'CCN-CERT / Gobierno de España (catálogo base MAGERIT v3, reproducción autorizada citando la fuente) - grupos S e IA: ampliación de la comunidad CISO Assistant'
+version: 1
+publication_date: '2026-07-28'
+provider: CCN-CERT (Centro Criptológico Nacional) + comunidad CISO Assistant
+packager: SecurityPyme
+translations:
+  en:
+    name: MAGERIT - Threat catalogue (with supply chain and AI)
+    description: 'Threat catalogue based on Book II - Catalogue of Elements of MAGERIT v3 (the Spanish Risk Analysis and Management Methodology for Information Systems, CCN-CERT), organized in the original groups: [N] Natural disasters, [I] Industrial origin, [E] Unintentional errors and failures, and [A] Intentional attacks. Extended with two additional groups not present in the original 2012 catalogue: [S] Supply chain and [IA] Artificial Intelligence risks.'
+objects:
+  threats:
+  - urn: urn:intuitem:risk:threat:magerit-threats:n1
+    ref_id: N.1
+    name: Fuego
+    description: Incendio de origen natural (p. ej. incendio forestal) que puede destruir o dañar instalaciones, equipos o soportes de información.
+    annotation: Disponer de sistemas de detección y extinción de incendios, ubicaciones alternativas (CPD de respaldo) y copias de seguridad externalizadas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:n2
+    ref_id: N.2
+    name: Daños por agua
+    description: Inundación de origen natural (lluvias torrenciales, desbordamientos, etc.) que puede dañar instalaciones y equipos.
+    annotation: Evitar ubicar los centros de proceso de datos en plantas bajas o zonas inundables; sistemas de detección de agua y planes de continuidad.
+  - urn: urn:intuitem:risk:threat:magerit-threats:n3
+    ref_id: N.*
+    name: Desastres naturales
+    description: 'Otros desastres de origen natural: terremotos, rayos, meteorología adversa, etc.'
+    annotation: Análisis de riesgo geográfico de las instalaciones, seguro de daños y plan de continuidad de negocio (BCP/DRP).
+  - urn: urn:intuitem:risk:threat:magerit-threats:i1
+    ref_id: I.1
+    name: Fuego
+    description: Incendio de origen industrial (fallo eléctrico, entorno del centro de proceso de datos, etc.).
+    annotation: Sistemas de extinción automática, compartimentación de salas técnicas, mantenimiento eléctrico preventivo.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i2
+    ref_id: I.2
+    name: Daños por agua
+    description: Escapes, fugas o vertidos de agua de origen industrial (climatización, fontanería, sprinklers, etc.).
+    annotation: Detección de fugas, ubicación de equipos elevada respecto al suelo, mantenimiento de instalaciones.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i3
+    ref_id: I.*
+    name: Desastres industriales
+    description: Explosión, derrumbe, contaminación química, sobrecarga eléctrica u otros desastres de origen industrial (propios o del entorno).
+    annotation: Planes de emergencia y evacuación, análisis de riesgos del entorno físico, coordinación con instalaciones colindantes.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i4
+    ref_id: I.3
+    name: Contaminación mecánica
+    description: Vibraciones, polvo o suciedad que afectan al funcionamiento de los equipos.
+    annotation: Mantenimiento preventivo y salas técnicas con control ambiental adecuado.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i5
+    ref_id: I.4
+    name: Contaminación electromagnética
+    description: Interferencias electromagnéticas que afectan al funcionamiento de los equipos.
+    annotation: Apantallamiento, cumplimiento de normativa de compatibilidad electromagnética y distancia a fuentes de interferencia.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i6
+    ref_id: I.5
+    name: Avería de origen físico o lógico
+    description: Fallo de un equipo o sistema por defecto de fabricación, desgaste o error de programación.
+    annotation: Mantenimiento preventivo, redundancia de equipos críticos, pruebas y control de calidad del software.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i7
+    ref_id: I.6
+    name: Corte del suministro eléctrico
+    description: Cese de la alimentación eléctrica que puede afectar a la disponibilidad de los sistemas.
+    annotation: SAI/UPS, generadores de respaldo y contratos con distribuidoras de doble acometida.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i8
+    ref_id: I.7
+    name: Condiciones inadecuadas de temperatura o humedad
+    description: Fallo de los sistemas de climatización que provoca condiciones ambientales fuera de rango en el centro de proceso de datos.
+    annotation: Climatización redundante (N+1) y monitorización ambiental con alarmas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i9
+    ref_id: I.8
+    name: Fallo de servicios de comunicaciones
+    description: Caída o degradación de los enlaces de comunicaciones/red.
+    annotation: Enlaces redundantes con proveedores distintos, monitorización de red y SLA con penalizaciones.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i10
+    ref_id: I.9
+    name: Interrupción de otros servicios o suministros esenciales
+    description: Fallo de otros suministros necesarios (agua, gas, servicios subcontratados, etc.).
+    annotation: Identificar dependencias críticas de suministros y disponer de alternativas o contratos de contingencia.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i11
+    ref_id: I.10
+    name: Degradación de los soportes de almacenamiento de la información
+    description: Desgaste natural o defecto de fabricación de los soportes (discos, cintas, etc.) que provoca pérdida de información.
+    annotation: Copias de seguridad periódicas, comprobación de integridad y renovación planificada de soportes.
+  - urn: urn:intuitem:risk:threat:magerit-threats:i12
+    ref_id: I.11
+    name: Emanaciones electromagnéticas
+    description: El propio funcionamiento de los equipos genera radiaciones que pueden ser capturadas para obtener información (TEMPEST).
+    annotation: Apantallamiento TEMPEST en entornos de alta clasificación y control de acceso físico al entorno de los equipos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e1
+    ref_id: E.1
+    name: Errores de los usuarios
+    description: Equivocaciones de las personas al utilizar los sistemas (introducción de datos, uso indebido, etc.).
+    annotation: Formación y concienciación, validación de entradas y principio de mínimo privilegio.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e2
+    ref_id: E.2
+    name: Errores del administrador
+    description: Equivocaciones de las personas con responsabilidades de instalación y operación de los sistemas.
+    annotation: Procedimientos operativos documentados, segregación de funciones y revisión por pares de cambios críticos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e3
+    ref_id: E.3
+    name: Errores de monitorización (log)
+    description: 'Inadecuado registro de actividad: falta, insuficiencia o pérdida de los registros de auditoría.'
+    annotation: Centralización de registros (SIEM), retención adecuada y alertado sobre fallos de registro.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e4
+    ref_id: E.4
+    name: Errores de configuración
+    description: Introducción de datos de configuración erróneos en sistemas y aplicaciones.
+    annotation: Gestión de configuración (CMDB), control de cambios y plantillas de hardening estandarizadas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e5
+    ref_id: E.7
+    name: Deficiencias en la organización
+    description: Ausencia o insuficiencia de normas, procedimientos o asignación de responsabilidades que facilita la aparición de otros incidentes.
+    annotation: Políticas y procedimientos formalizados y definición clara de roles y responsabilidades (RACI).
+  - urn: urn:intuitem:risk:threat:magerit-threats:e6
+    ref_id: E.8
+    name: Difusión de software dañino (no intencionada)
+    description: Propagación de virus, gusanos u otro código malicioso de forma no intencionada.
+    annotation: Antimalware actualizado, filtrado de correo/web y formación al usuario.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e7
+    ref_id: E.9
+    name: Errores de [re-]encaminamiento
+    description: Envío de información a través de un sistema o destino equivocado.
+    annotation: Validación de destinatarios, herramientas DLP y revisión de reglas de encaminamiento.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e8
+    ref_id: E.10
+    name: Errores de secuencia
+    description: Alteración accidental del orden de los mensajes o transacciones.
+    annotation: Controles de integridad y numeración de secuencia, validación transaccional.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e9
+    ref_id: E.14
+    name: Escapes de información
+    description: Revelación de información por indiscreción, descuido o falta de control (no intencionada).
+    annotation: Clasificación de la información, controles DLP y cláusulas de confidencialidad.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e10
+    ref_id: E.15
+    name: Alteración accidental de la información
+    description: Modificación no intencionada de datos por error humano o de proceso.
+    annotation: Controles de integridad, versionado, copias de seguridad y validación de cambios.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e11
+    ref_id: E.18
+    name: Destrucción de información
+    description: Pérdida accidental de información por borrado, sobrescritura o daño no intencionado.
+    annotation: Copias de seguridad periódicas y probadas, y control de acceso a operaciones destructivas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e12
+    ref_id: E.19
+    name: Fugas de información (no intencionadas)
+    description: Salida no controlada de información fuera del ámbito autorizado por descuido o mal uso.
+    annotation: DLP, cifrado de soportes móviles y políticas de uso aceptable.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e13
+    ref_id: E.20
+    name: Vulnerabilidades de los programas (software)
+    description: Defectos en el código que pueden ser explotados.
+    annotation: Gestión de vulnerabilidades y parches, análisis de código (SAST/DAST/SCA) y ciclo de desarrollo seguro.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e14
+    ref_id: E.21
+    name: Errores de mantenimiento / actualización de programas (software)
+    description: Fallos al aplicar actualizaciones o mantenimiento que afectan a la operación del sistema.
+    annotation: Entornos de pruebas, ventanas de mantenimiento controladas y planes de rollback.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e15
+    ref_id: E.23
+    name: Errores de mantenimiento / actualización de equipos (hardware)
+    description: Fallos al realizar el mantenimiento físico de los equipos.
+    annotation: Mantenimiento por personal cualificado y procedimientos/checklist de mantenimiento.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e16
+    ref_id: E.24
+    name: Caída del sistema por agotamiento de recursos
+    description: Falta de dimensionamiento o capacidad (CPU, memoria, disco, ancho de banda) que provoca la caída del servicio.
+    annotation: Monitorización de capacidad, autoescalado, pruebas de carga y planificación de capacidad.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e17
+    ref_id: E.25
+    name: Pérdida de equipos
+    description: Extravío accidental de equipos (portátiles, móviles, soportes extraíbles).
+    annotation: Cifrado de disco completo, gestión de dispositivos móviles (MDM) y borrado remoto.
+  - urn: urn:intuitem:risk:threat:magerit-threats:e18
+    ref_id: E.28
+    name: Indisponibilidad del personal
+    description: Ausencia del personal necesario para la operación por causas no intencionadas (enfermedad, accidente, etc.).
+    annotation: Planes de continuidad de personal, documentación de procesos y polivalencia del equipo.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a1
+    ref_id: A.3
+    name: Manipulación de los registros de actividad (log)
+    description: Alteración intencionada de los registros para ocultar un ataque.
+    annotation: Registros inmutables/WORM, envío en tiempo real a un SIEM externo y firma o hash de los registros.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a2
+    ref_id: A.4
+    name: Manipulación de la configuración
+    description: Modificación deliberada de la configuración de sistemas para debilitar la seguridad o facilitar un ataque.
+    annotation: Control de cambios, monitorización de integridad de configuración (FIM) y mínimo privilegio.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a3
+    ref_id: A.5
+    name: Suplantación de la identidad del usuario
+    description: Un atacante se hace pasar por un usuario legítimo para acceder a recursos no autorizados.
+    annotation: Autenticación multifactor, políticas de contraseñas robustas y monitorización de accesos anómalos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a4
+    ref_id: A.6
+    name: Abuso de privilegios de acceso
+    description: Uso de privilegios legítimos para fines no autorizados.
+    annotation: Principio de mínimo privilegio, revisión periódica de permisos y monitorización de acciones privilegiadas (PAM).
+  - urn: urn:intuitem:risk:threat:magerit-threats:a5
+    ref_id: A.7
+    name: Uso no previsto
+    description: Utilización de los recursos del sistema para fines distintos a los autorizados (p. ej. minería de criptomonedas, fines personales).
+    annotation: Políticas de uso aceptable, monitorización de uso de recursos y control de aplicaciones.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a6
+    ref_id: A.8
+    name: Difusión de software dañino (intencionada)
+    description: Propagación deliberada de virus, ransomware, troyanos u otro código malicioso.
+    annotation: EDR/antimalware, segmentación de red y copias de seguridad offline/inmutables frente a ransomware.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a7
+    ref_id: A.9
+    name: '[Re-]encaminamiento de mensajes'
+    description: Desvío intencionado de mensajes o tráfico hacia un destino no autorizado.
+    annotation: Autenticación de rutas y protocolos, monitorización de red y cifrado de extremo a extremo.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a8
+    ref_id: A.10
+    name: Alteración de secuencia
+    description: Alteración deliberada del orden de mensajes o transacciones para producir un efecto no autorizado.
+    annotation: Controles criptográficos de integridad y numeración de secuencia.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a9
+    ref_id: A.11
+    name: Acceso no autorizado
+    description: Un atacante accede a los sistemas o instalaciones sin autorización, física o lógica.
+    annotation: Control de acceso físico y lógico, autenticación multifactor y segmentación de red.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a10
+    ref_id: A.12
+    name: Análisis de tráfico
+    description: Observación del tráfico de comunicaciones para obtener información, aunque esté cifrado.
+    annotation: Cifrado de comunicaciones, ofuscación de metadatos y uso de VPN.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a11
+    ref_id: A.13
+    name: Repudio
+    description: Negación de la autoría de una acción o transacción realmente realizada.
+    annotation: Firma electrónica, sellado de tiempo y registros de auditoría fehacientes (trazabilidad).
+  - urn: urn:intuitem:risk:threat:magerit-threats:a12
+    ref_id: A.14
+    name: Interceptación de información (escucha)
+    description: Captura no autorizada de información en tránsito (eavesdropping, sniffing).
+    annotation: Cifrado de comunicaciones (TLS/VPN), segmentación de red y protección frente a accesos físicos al cableado.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a13
+    ref_id: A.15
+    name: Modificación deliberada de la información
+    description: Alteración intencionada y no autorizada de datos.
+    annotation: Controles de integridad, firma digital y segregación de funciones.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a14
+    ref_id: A.18
+    name: Destrucción de información
+    description: Eliminación deliberada y no autorizada de información.
+    annotation: Copias de seguridad inmutables/offline, control de acceso a funciones de borrado y monitorización.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a15
+    ref_id: A.19
+    name: Divulgación de información
+    description: Revelación deliberada y no autorizada de información a terceros.
+    annotation: Clasificación y cifrado de la información, DLP y control de acceso basado en necesidad de conocer.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a16
+    ref_id: A.22
+    name: Manipulación de programas
+    description: Inclusión deliberada de código malicioso en aplicaciones (troyanos, bombas lógicas, puertas traseras).
+    annotation: Control de integridad de código, firma de binarios, y revisión de código y control de cambios.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a17
+    ref_id: A.23
+    name: Manipulación de los equipos
+    description: Alteración física deliberada de los equipos (hardware) para comprometer su funcionamiento.
+    annotation: Control de acceso físico, sellos de seguridad e inventario con verificación de integridad del hardware.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a18
+    ref_id: A.24
+    name: Denegación de servicio
+    description: Ataque destinado a impedir o degradar el acceso a un servicio (DoS/DDoS).
+    annotation: Protección anti-DDoS, dimensionamiento y redundancia, y planes de respuesta a incidentes.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a19
+    ref_id: A.25
+    name: Robo
+    description: Sustracción física de equipos o soportes de información.
+    annotation: Control de acceso físico, cifrado de disco completo e inventario/trazabilidad de activos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a20
+    ref_id: A.26
+    name: Ataque destructivo
+    description: Vandalismo o sabotaje deliberado con intención de dañar instalaciones o equipos.
+    annotation: Seguridad física perimetral, videovigilancia, control de acceso y planes de continuidad.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a21
+    ref_id: A.27
+    name: Ocupación enemiga
+    description: Toma de control físico de las instalaciones por parte de terceros no autorizados (p. ej. en contextos de conflicto o disturbios).
+    annotation: Planes de continuidad de negocio, ubicaciones alternativas y coordinación con seguridad física y autoridades.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a22
+    ref_id: A.28
+    name: Indisponibilidad del personal (intencionada)
+    description: Ausencia deliberada o coacción del personal necesario para la operación (huelgas, coacción, secuestro, etc.).
+    annotation: Planes de continuidad de personal, documentación de procesos y protocolos de seguridad del personal clave.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a23
+    ref_id: A.29
+    name: Extorsión
+    description: Presión mediante amenazas (incluido el ransomware) para obtener beneficio o forzar una acción.
+    annotation: Planes de respuesta a incidentes de ransomware/extorsión, copias de seguridad offline y asesoría legal y de crisis.
+  - urn: urn:intuitem:risk:threat:magerit-threats:a24
+    ref_id: A.30
+    name: Ingeniería social
+    description: Manipulación psicológica de las personas para obtener información o acceso (phishing, vishing, pretexting, etc.).
+    annotation: Formación y concienciación continua, simulacros de phishing y verificación de identidad en procesos sensibles.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s1
+    ref_id: S.1
+    name: Compromiso de un proveedor de software o hardware
+    description: Un proveedor es comprometido por un atacante, que utiliza su posición de confianza para atacar a sus clientes (ataque a la cadena de suministro).
+    annotation: Evaluación y homologación de proveedores, cláusulas de seguridad contractuales y monitorización de indicadores de compromiso en componentes de terceros.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s2
+    ref_id: S.2
+    name: Componentes falsificados o manipulados
+    description: Introducción de hardware o software falsificado, adulterado o con componentes no originales en la cadena de suministro.
+    annotation: Verificación de origen y autenticidad (firma, hologramas, hash) y auditoría de proveedores y distribuidores autorizados.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s3
+    ref_id: S.3
+    name: Actualización o parche malicioso
+    description: Compromiso del mecanismo de actualización/distribución de software para propagar código malicioso a los clientes.
+    annotation: Firma y verificación criptográfica de actualizaciones, entornos de prueba previos al despliegue y monitorización de comportamiento tras actualizar.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s4
+    ref_id: S.4
+    name: Vulnerabilidades en componentes de terceros
+    description: Uso de librerías, paquetes o componentes de terceros (incluido software de código abierto) con vulnerabilidades conocidas o no corregidas.
+    annotation: Inventario de componentes (SBOM), análisis de composición de software (SCA) y gestión de vulnerabilidades de terceros.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s5
+    ref_id: S.5
+    name: Interrupción del servicio de un proveedor crítico
+    description: Indisponibilidad de un proveedor externo esencial (nube, telecomunicaciones, servicios gestionados) que afecta a la continuidad del negocio.
+    annotation: Análisis de dependencias críticas, cláusulas de nivel de servicio (SLA), y planes de contingencia y proveedores alternativos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s6
+    ref_id: S.6
+    name: Fuga o exposición de información por un proveedor o subcontratista
+    description: Un proveedor o subcontratista expone o filtra información de la organización a la que tiene acceso.
+    annotation: Cláusulas contractuales de confidencialidad y protección de datos, auditorías de seguridad a proveedores y mínimo privilegio en los accesos concedidos.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s7
+    ref_id: S.7
+    name: Incumplimiento contractual, normativo o de nivel de servicio del proveedor
+    description: El proveedor no cumple con los requisitos de seguridad, privacidad o niveles de servicio pactados.
+    annotation: Auditorías periódicas, derecho de auditoría contractual e indicadores de cumplimiento (KPI/KRI) con penalizaciones.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s8
+    ref_id: S.8
+    name: Concentración de riesgo por dependencia de un único proveedor
+    description: Dependencia excesiva de un único proveedor crítico, o de un único país o región, sin alternativas viables.
+    annotation: Estrategias de diversificación de proveedores, análisis de concentración de riesgo y planes de salida (exit plan).
+  - urn: urn:intuitem:risk:threat:magerit-threats:s9
+    ref_id: S.9
+    name: Compromiso de la cadena de suministro en la nube
+    description: Compromiso de un proveedor de servicios en la nube (IaaS/PaaS/SaaS) o de sus subcontratistas que afecta a los clientes.
+    annotation: Revisión de certificaciones del proveedor (ISO 27001, SOC 2, ENS, etc.), cifrado con claves propias y arquitectura multicloud o de salida planificada.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s10
+    ref_id: S.10
+    name: Puertas traseras (backdoors) en productos suministrados
+    description: Inclusión deliberada de accesos ocultos en productos hardware o software suministrados por terceros.
+    annotation: Análisis de código y firmware, pruebas de penetración a productos críticos y cláusulas de transparencia/auditoría del código fuente.
+  - urn: urn:intuitem:risk:threat:magerit-threats:s11
+    ref_id: S.11
+    name: Fin de soporte o descontinuación de un producto/proveedor
+    description: Obsolescencia, fin de vida (EOL) o desaparición de un proveedor que deja componentes críticos sin mantenimiento ni parches de seguridad.
+    annotation: Gestión del ciclo de vida de proveedores y productos, planes de migración anticipados y cláusulas de continuidad/depósito de código fuente (escrow).
+  - urn: urn:intuitem:risk:threat:magerit-threats:s12
+    ref_id: S.12
+    name: Ataque a través de accesos remotos concedidos a proveedores
+    description: Un atacante utiliza credenciales o accesos remotos legítimos concedidos a un proveedor de mantenimiento para comprometer los sistemas.
+    annotation: Accesos remotos de proveedores con MFA, sesiones supervisadas y grabadas, mínimo privilegio y revocación inmediata al finalizar el servicio.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia1
+    ref_id: IA.1
+    name: Envenenamiento de datos de entrenamiento (data poisoning)
+    description: Manipulación deliberada de los datos utilizados para entrenar o reentrenar un modelo de IA, degradando su comportamiento o introduciendo sesgos o puertas traseras.
+    annotation: Validación y control de procedencia (linaje) de los conjuntos de datos de entrenamiento, detección de anomalías en los datos y entornos de entrenamiento aislados.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia2
+    ref_id: IA.2
+    name: Manipulación o puerta trasera del modelo (model backdoor/tampering)
+    description: Alteración deliberada de los parámetros o pesos de un modelo para que se comporte de forma anómala ante determinadas entradas (trigger).
+    annotation: Verificación de integridad (hash/firma) de los modelos, control de acceso a los repositorios de modelos y pruebas de robustez antes del despliegue.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia3
+    ref_id: IA.3
+    name: Inyección de instrucciones (prompt injection)
+    description: Manipulación de las entradas de un sistema de IA generativa, directa o indirecta (vía documentos, webs o herramientas conectadas), para alterar su comportamiento, eludir controles o exfiltrar información.
+    annotation: Separación entre instrucciones de sistema y datos de usuario, filtrado y validación de entradas/salidas, y mínimo privilegio para las herramientas que el modelo puede invocar.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia4
+    ref_id: IA.4
+    name: Fuga de información a través del modelo
+    description: Extracción de información sensible o de datos de entrenamiento a partir de las respuestas del modelo (inversión de modelo, inferencia de pertenencia, memorización).
+    annotation: Anonimización/minimización de los datos de entrenamiento, filtrado de salidas, y límites de tasa y monitorización de consultas sospechosas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia5
+    ref_id: IA.5
+    name: Alucinaciones y resultados incorrectos o no verificados
+    description: El sistema de IA genera respuestas plausibles pero falsas o inexactas, que son utilizadas sin validación en la toma de decisiones.
+    annotation: Supervisión humana en decisiones relevantes (human-in-the-loop), verificación de fuentes, e indicadores de confianza y trazabilidad de las respuestas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia6
+    ref_id: IA.6
+    name: Sesgo y discriminación algorítmica
+    description: El modelo produce resultados sistemáticamente sesgados o discriminatorios debido a los datos de entrenamiento o al diseño del algoritmo.
+    annotation: Auditorías de sesgo e imparcialidad, evaluación de impacto del sistema de IA, y diversidad y representatividad de los datos de entrenamiento.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia7
+    ref_id: IA.7
+    name: Cadena de suministro de IA no confiable
+    description: Uso de modelos preentrenados, conjuntos de datos o componentes de terceros (incluidos proveedores de servicios de IA en la nube) con origen no verificado o comprometido.
+    annotation: Evaluación y homologación de proveedores y modelos de terceros, verificación de procedencia y licencias, y análisis de seguridad antes de la integración.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia8
+    ref_id: IA.8
+    name: Robo o extracción del modelo
+    description: Un atacante reconstruye o extrae un modelo propio, o su funcionalidad, mediante consultas masivas al servicio (model extraction/stealing).
+    annotation: Limitación de tasa y monitorización de patrones de consulta anómalos, marcas de agua (watermarking) del modelo, y control de acceso a la API.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia9
+    ref_id: IA.9
+    name: Ataques adversarios (evasion attacks)
+    description: Entradas cuidadosamente manipuladas (imágenes, texto, etc.) diseñadas para engañar al modelo y provocar una clasificación o decisión incorrecta.
+    annotation: Entrenamiento adversarial y pruebas de robustez (red teaming de IA), validación de entradas y monitorización de resultados inesperados.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia10
+    ref_id: IA.10
+    name: Uso no autorizado de IA por el personal (shadow AI)
+    description: Empleados utilizan herramientas de IA generativa no aprobadas ni controladas por la organización, con posible fuga de información confidencial.
+    annotation: Política de uso aceptable de IA, catálogo de herramientas aprobadas, soluciones de IA corporativas seguras y concienciación del personal.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia11
+    ref_id: IA.11
+    name: Dependencia excesiva / automatización sin supervisión humana
+    description: Delegación de decisiones críticas en sistemas de IA sin mecanismos adecuados de supervisión, revisión o capacidad de intervención humana.
+    annotation: Definición de niveles de autonomía según criticidad, supervisión humana obligatoria en decisiones de alto impacto y planes de reversión (rollback) manual.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia12
+    ref_id: IA.12
+    name: Incumplimiento normativo en el uso de IA
+    description: Uso de sistemas de IA sin cumplir la normativa aplicable (p. ej. Reglamento (UE) de Inteligencia Artificial, RGPD) en cuanto a transparencia, evaluación de riesgos o derechos de los afectados.
+    annotation: Clasificación de los sistemas de IA según el Reglamento de IA de la UE, evaluación de impacto en la protección de datos (EIPD) y de conformidad, y registro/documentación técnica.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia13
+    ref_id: IA.13
+    name: Degradación del modelo por deriva de datos (model/data drift)
+    description: El rendimiento del modelo se degrada con el tiempo porque los datos reales dejan de corresponder a los datos de entrenamiento.
+    annotation: Monitorización continua del rendimiento del modelo en producción, reentrenamiento periódico y alertas ante degradación de métricas.
+  - urn: urn:intuitem:risk:threat:magerit-threats:ia14
+    ref_id: IA.14
+    name: Denegación de servicio del modelo
+    description: Consultas diseñadas para consumir recursos computacionales excesivos (p. ej. «sponge examples») o saturar la capacidad del servicio de IA.
+    annotation: Límites de tasa y de coste computacional por consulta, monitorización de consumo de recursos, y dimensionamiento y cuotas de uso.
